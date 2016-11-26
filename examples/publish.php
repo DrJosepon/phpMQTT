@@ -3,11 +3,20 @@
 require("../phpMQTT.php");
 
 	
-$mqtt = new phpMQTT("example.com", 1883, "phpMQTT Pub Example"); //Change client name to something unique
+  $host = "192.168.1.36"; 
+  $port = 1883;
+  $username = "username"; 
+  $password = "password"; 
+  $message = "1";
 
-if ($mqtt->connect()) {
-	$mqtt->publish("bluerhinos/phpMQTT/examples/publishtest","Hello World! at ".date("r"),0);
-	$mqtt->close();
-}
+  //MQTT client id to use for the device. "" will generate a client id automatically
+  $mqtt = new phpMQTT($host, $port, "ClientID".rand()); 
+
+  if ($mqtt->connect(true,NULL)) {
+    $mqtt->publish("event",$message, 0);
+    $mqtt->close();
+  }else{
+    echo "Fail or time out<br />";
+  }
 
 ?>
